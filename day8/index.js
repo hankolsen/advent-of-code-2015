@@ -10,18 +10,16 @@ getRows()
     const clean = string => string.replace(escapeRegEx, '');
     const matchLength = (string, regex) => (string.match(regex) || []).length;
 
+    const count = (func, input) => input.reduce((sum, row) => sum + func(row), 0);
+
     const part1 = () => {
-      const result = data.map((row) => {
-        return 2 + matchLength(row, escapeRegEx) + 3 * matchLength(clean(row), charRegEx);
-      }).reduce((sum, length) => sum + length, 0);
-      console.log(result);
+      const findLength = string => 2 + matchLength(string, escapeRegEx) + 3 * matchLength(clean(string), charRegEx);
+      console.log(count(findLength, data));
     };
 
     const part2 = () => {
-      const result = data.map((row) => {
-        return 4 + 2 * matchLength(row, escapeRegEx) + matchLength(clean(row), charRegEx);
-      }).reduce((sum, length) => sum + length, 0);
-      console.log(result);
+      const findLength = string => 4 + 2 * matchLength(string, escapeRegEx) + matchLength(clean(string), charRegEx);
+      console.log(count(findLength, data));
     };
 
     part1();
