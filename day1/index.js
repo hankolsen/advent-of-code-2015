@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* eslint no-confusing-arrow: 0 */
+/* eslint no-confusing-arrow: 0, no-param-reassign: 0 */
 const { getRow } = require('../utils');
 
 getRow()
@@ -9,8 +9,8 @@ getRow()
 
     let basementStep;
 
-    const finalFloor = input.reduce((acc, val, index) => {
-      const floor = acc + val;
+    const finalFloor = input.reduce((floor, direction, index) => {
+      floor += direction;
       if (!basementStep && floor < 0) {
         basementStep = index + 1;
       }
