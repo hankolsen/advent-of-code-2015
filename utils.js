@@ -52,5 +52,24 @@ const hashString = (str) => {
   return hash;
 };
 
+const permutator = (inputArr) => {
+  const result = [];
 
-module.exports = { applyLengths, getData, getRow, getRows, hashString };
+  const permute = (arr, m = []) => {
+    if (arr.length === 0) {
+      result.push(m);
+    } else {
+      for (let i = 0; i < arr.length; i += 1) {
+        const curr = arr.slice();
+        const next = curr.splice(i, 1);
+        permute(curr.slice(), m.concat(next));
+      }
+    }
+  };
+
+  permute(inputArr);
+
+  return result;
+};
+
+module.exports = { applyLengths, getData, getRow, getRows, hashString, permutator };
