@@ -23,12 +23,27 @@ getRows()
       perfumes: 1,
     };
 
+    const comparators = {
+      cats: (a, b) => a < b,
+      trees: (a, b) => a < b,
+      pomeranians: (a, b) => a > b,
+      goldfish: (a, b) => a > b,
+    };
+
     const part1 = () => {
       const correctSue = sues.filter(({ compounds }) => Object.entries(compounds).every(([compound, value]) => answer[compound] === value));
       console.log(correctSue[0].name);
     };
 
     const part2 = () => {
+      const correctSue = sues.filter(({ compounds }) => Object.entries(compounds).every(([compound, value]) => {
+        if (comparators[compound]) {
+          return comparators[compound](answer[compound], value);
+        } else {
+          return answer[compound] === value;
+        }
+      }));
+      console.log(correctSue[0].name);
     };
 
     part1();
