@@ -16,9 +16,9 @@ const getRows = () => getData().then(data => data.split('\n'));
 
 const getRow = () => getRows().then(data => data[0]);
 
-const listSize = 256;
 
 const applyLengths = (list, lengths, currentPosition = 0, skipSize = 0) => {
+  const listSize = 256;
   lengths.forEach((length) => {
     list = [...list.slice(currentPosition), ...list.slice(0, currentPosition)];
     list = [...list.slice(0, length).reverse(), ...list.slice(length)];
@@ -30,6 +30,7 @@ const applyLengths = (list, lengths, currentPosition = 0, skipSize = 0) => {
 };
 
 const hashString = (str) => {
+  const listSize = 256;
   let list = [...Array(listSize).keys()];
   const lengths = [...[...str].map(char => char.charCodeAt(0)), ...[17, 31, 73, 47, 23]];
   let currentPosition = 0;
@@ -72,4 +73,20 @@ const permutator = (inputArr) => {
   return result;
 };
 
-module.exports = { applyLengths, getData, getRow, getRows, hashString, permutator };
+const powerSet = (list) => {
+  const [set, listSize] = [[], list.length];
+  const combinationsCount = (1 << listSize);
+
+  let combination = [];
+  for (let i = 1; i < combinationsCount; i += 1, set.push(combination)) {
+    combination = [];
+    for (let j = 0; j < listSize; j += 1) {
+      if ((i & (1 << j))) {
+        combination.push(list[j]);
+      }
+    }
+  }
+  return set;
+};
+
+module.exports = { applyLengths, getData, getRow, getRows, hashString, permutator, powerSet };
