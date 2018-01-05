@@ -6,22 +6,21 @@ getRows()
   .then((data) => {
 
     const input = data.map((row) => {
-      const [, name, speed, runTime, restTime] = row.match(/^(\w+).*\s(\d+).*\s(\d+) seconds.*\s(\d+) seconds\.$/);
-      return [name, +speed, +runTime, +restTime];
+      const [speed, runTime, restTime] = row.match(/(\d+)/g);
+      return [+speed, +runTime, +restTime];
     });
 
 
     const part1 = () => {
       const endTime = 2503;
-      const result = input.map(([name, speed, runTime, restTime]) => {
+      const result = input.map(([speed, runTime, restTime]) => {
         const lapTime = runTime + restTime;
         const fullLaps = Math.floor(endTime / lapTime);
         const partLaps = endTime % lapTime;
         const totalLength = (fullLaps * runTime + (partLaps > runTime ? runTime : partLaps)) * speed;
-        return [name, totalLength];
+        return totalLength;
       });
-      result.sort(([, aLength], [, bLength]) => aLength < bLength);
-      console.log(result[0][1]);
+      console.log(Math.max(...result));
     };
 
     const part2 = () => {
