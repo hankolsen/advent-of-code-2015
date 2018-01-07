@@ -29,13 +29,22 @@ getRow()
       let houseNumber = 0;
       while (total < target) {
         houseNumber += 1;
-        total = factorise(houseNumber).reduce((sum, number) => sum + (10 * number), 0);
+        total = factorise(houseNumber).reduce((sum, number) => sum + number, 0) * 10;
       }
-      console.log(total, houseNumber);
+      console.log(houseNumber);
     };
 
     const part2 = () => {
-
+      let total = 0;
+      let houseNumber = 0;
+      const usedElves = {};
+      while (total < target) {
+        houseNumber += 1;
+        const elves = factorise(houseNumber);
+        elves.forEach((elf) => { usedElves[elf] = (usedElves[elf] || 0) + 1; });
+        total = elves.reduce((sum, number) => sum + (usedElves[number] <= 50 ? number : 0), 0) * 11;
+      }
+      console.log(houseNumber);
     };
 
     part1();
