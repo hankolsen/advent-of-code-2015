@@ -28,8 +28,7 @@ getRow()
     };
 
 
-    const part1 = () => {
-      let password = input;
+    const part1 = (password) => {
       while (!isValidPassword(password)) {
         password = findNewPassword(password);
       }
@@ -37,7 +36,10 @@ getRow()
       console.log(password);
     };
 
-    part1();
+    const part2 = () => part1('vzbxxzzz');
+
+    part1(input);
+    part2();
 
   })
   .catch(err => console.log(`There was an error\n${err}`));
