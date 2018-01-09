@@ -6,40 +6,42 @@ getRow()
 
     const input = data;
 
+    const [i, l, o, z] = [105, 108, 111, 122];
     const test3Consecutive = string => [...string].map(x => x.charCodeAt()).find((n, i, arr) => n === (arr[i + 1] - 1) && n === arr[i + 2] - 2);
     const testDoubles = string => string.match(/(.)\1.*(.)\2/);
     const testForbiddenCharacters = string => !(string.match(/[iol]/) || []).length;
     const isValidPassword = password => [test3Consecutive, testDoubles, testForbiddenCharacters].every(test => test(password));
+    const concatPassword = (password, position, newChar) => password.substr(0, position) + newChar + password.substr(position + 1);
     const findNewPassword = (password, position = password.length - 1) => {
       let charCode = password.charCodeAt(position);
-      if (charCode === 122) {
-        password = password.substr(0, position) + 'a' + password.substr(position + 1);
+      if (charCode === z) {
+        password = concatPassword(password, position, 'a');
         return findNewPassword(password, position - 1);
       }
       charCode += 1;
 
       // i, l, o are not allowed
-      if (charCode === 105 || charCode === 108 || charCode === 111) {
+      if (charCode === i || charCode === l || charCode === o) {
         charCode += 1;
       }
 
-      password = password.substr(0, position) + String.fromCharCode(charCode) + password.substr(position + 1);
+      password = concatPassword(password, position, String.fromCharCode(charCode));
       return password;
     };
 
 
     const part1 = (password) => {
+      password = findNewPassword(password);
       while (!isValidPassword(password)) {
         password = findNewPassword(password);
       }
 
-      console.log(password);
+      return password;
     };
 
-    const part2 = () => part1('vzbxxzzz');
-
-    part1(input);
-    part2();
+    const resultPart1 = part1(input);
+    console.log(resultPart1);
+    console.log(part1(resultPart1));
 
   })
   .catch(err => console.log(`There was an error\n${err}`));
